@@ -1,0 +1,8 @@
+C:\Users\vinnu\documents\visual studio 2010\Projects\Syncher\Syncher\bin\Debug\Syncher.exe
+C:\Users\vinnu\documents\visual studio 2010\Projects\Syncher\Syncher\bin\Debug\Syncher.pdb
+C:\Users\vinnu\documents\visual studio 2010\Projects\Syncher\Syncher\obj\x86\Debug\Syncher.csprojResolveAssemblyReference.cache
+C:\Users\vinnu\documents\visual studio 2010\Projects\Syncher\Syncher\obj\x86\Debug\WindowsFormsApplication1.Form1.resources
+C:\Users\vinnu\documents\visual studio 2010\Projects\Syncher\Syncher\obj\x86\Debug\Syncher.Properties.Resources.resources
+C:\Users\vinnu\documents\visual studio 2010\Projects\Syncher\Syncher\obj\x86\Debug\Syncher.csproj.GenerateResource.Cache
+C:\Users\vinnu\documents\visual studio 2010\Projects\Syncher\Syncher\obj\x86\Debug\Syncher.exe
+C:\Users\vinnu\documents\visual studio 2010\Projects\Syncher\Syncher\obj\x86\Debug\Syncher.pdb
