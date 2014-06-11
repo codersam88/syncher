@@ -62,15 +62,20 @@ namespace WindowsFormsApplication1
         void sync(String frm, String to)
         {
             string[] files = System.IO.Directory.GetFiles(frm);
+            string[] subDirs = System.IO.Directory.GetDirectories(frm);
             System.IO.DirectoryInfo toDir = new System.IO.DirectoryInfo(to);
             System.IO.DirectoryInfo frmDir = new System.IO.DirectoryInfo(frm);
-            System.IO.DirectoryInfo[] subDirs = frmDir.GetDirectories();
-
+            //System.IO.DirectoryInfo[] subDirs = frmDir.GetDirectories();
+            System.IO.Directory.CreateDirectory(to);
             foreach (string fil in files)
             {
                 fName = System.IO.Path.GetFileName(fil);
                 desFName = System.IO.Path.Combine(to, fName);
                 System.IO.File.Copy(fil, desFName, true);
+            }
+            foreach(string subDir in subDirs){
+                System.IO.DirectoryInfo currDir = new System.IO.DirectoryInfo(subDir);
+                sync(subDir,System.IO.Path.Combine(to,currDir.Name));
             }
 
         }
