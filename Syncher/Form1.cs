@@ -12,33 +12,21 @@ namespace WindowsFormsApplication1
     public partial class Form1 : Form
     {
         string fName,desFName;
-        bool dirExists = false;
         public Form1()
         {
             InitializeComponent();
         }
 
-        /*private void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
             String appDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            System.IO.DirectoryInfo apD = new System.IO.DirectoryInfo("@" + "\"" + appDirectory + "\"");
-            System.IO.DirectoryInfo[] subDirs = apD.GetDirectories();
-            foreach (System.IO.DirectoryInfo dI in subDirs)
-            {
-                if (dI.Name.Equals("dataFiles"))
-                {
-                    dirExists = true;
-                }
-            }
-            String dataDir = "@" + "\"" + appDirectory + "\\dataFiles" + "\"";
-            if (dirExists == false)
-            {
-                System.IO.Directory.CreateDirectory(dataDir);
-            }
+            string dataDir = System.IO.Path.Combine(appDirectory, "data Files");
+            System.IO.Directory.CreateDirectory(dataDir);
             
-            Console.WriteLine("app directory "+"@"+"\""+appDirectory+"\"");
-            //System.IO.DirectoryInfo[] subDir = appDirectory.
-        }*/
+            
+            Console.WriteLine("Directory of app "+appDirectory );
+            
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {

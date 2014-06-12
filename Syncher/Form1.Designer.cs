@@ -71,7 +71,7 @@
             this.Controls.Add(this.button1);
             this.Name = "Form1";
             this.Text = "Syncher";
-            //this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseClick);
             this.ResumeLayout(false);
             this.PerformLayout();
