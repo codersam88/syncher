@@ -11,7 +11,7 @@ namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
     {
-        string fName,desFName;
+        string fName,desFName,dataDir,dataFile;
         public Form1()
         {
             InitializeComponent();
@@ -20,8 +20,13 @@ namespace WindowsFormsApplication1
         private void Form1_Load(object sender, EventArgs e)
         {
             String appDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            string dataDir = System.IO.Path.Combine(appDirectory, "data Files");
+            dataDir = System.IO.Path.Combine(appDirectory, "data Files");
+            dataFile = System.IO.Path.Combine(dataDir, "dataFile");
             System.IO.Directory.CreateDirectory(dataDir);
+            if (System.IO.File.Exists(dataFile))
+            {
+
+            }
             
             
             Console.WriteLine("Directory of app "+appDirectory );
@@ -40,7 +45,7 @@ namespace WindowsFormsApplication1
                 {
                     String topath2 = makePath(folderChooser.SelectedPath);
                     addFolderPair(frmpath1,topath2);
-                    sync(frmpath1, topath2);
+                    //sync(frmpath1, topath2);
                     
                 }
 
@@ -63,7 +68,7 @@ namespace WindowsFormsApplication1
             }
             foreach(string subDir in subDirs){
                 System.IO.DirectoryInfo currDir = new System.IO.DirectoryInfo(subDir);
-                sync(subDir,System.IO.Path.Combine(to,currDir.Name));
+                //sync(subDir,System.IO.Path.Combine(to,currDir.Name));
             }
 
         }
@@ -78,6 +83,14 @@ namespace WindowsFormsApplication1
             CheckBox foldPair1 = new CheckBox();
             foldPair1.AutoSize = true;
             foldPair1.Text = f1 + " " + f2;
+            if (!System.IO.File.Exists(dataFile))
+            {
+                System.IO.File.Create(dataFile);
+            }
+            using(System.IO.StreamWriter fil = new System.IO.StreamWriter(dataFile,true))
+            {
+                fil.WriteLine(f1 + " " + f2);
+            }
             foldPair1.Location = new System.Drawing.Point(16, 75);
             this.Controls.Add(foldPair1);
         }
