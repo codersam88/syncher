@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
+//https://github.com/codersam88/syncher.git
 namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
@@ -39,19 +39,21 @@ namespace WindowsFormsApplication1
 
         void displayOnPanel()
         {
-            System.IO.StreamReader sred = new System.IO.StreamReader(dataFile);
-            String cLine;
-            while ((cLine = sred.ReadLine()) != null)
+            using (System.IO.StreamReader sred = new System.IO.StreamReader(dataFile))
             {
-                CheckBox temp = new CheckBox();
-                temp.AutoSize=true;
-                temp.Text =cLine;
-                fPair.AddLast(new CheckBox());
-                
-                temp.Location = new System.Drawing.Point(16, startPoint);
-                startPoint = startPoint + addHeight;
-                addHeight *= 2;
-                this.Controls.Add(temp);
+                String cLine;
+                while ((cLine = sred.ReadLine()) != null)
+                {
+                    CheckBox temp = new CheckBox();
+                    temp.AutoSize = true;
+                    temp.Text = cLine;
+                    fPair.AddLast(new CheckBox());
+
+                    temp.Location = new System.Drawing.Point(16, startPoint);
+                    startPoint = startPoint + addHeight;
+                    //addHeight += addHeight;
+                    this.Controls.Add(temp);
+                }
             }
         }
 
@@ -109,11 +111,14 @@ namespace WindowsFormsApplication1
             {
                 System.IO.File.Create(dataFile);
             }
+            
             using(System.IO.StreamWriter fil = new System.IO.StreamWriter(dataFile,true))
             {
                 fil.WriteLine(f1 + " " + f2);
             }
-            foldPair1.Location = new System.Drawing.Point(16, 75);
+            foldPair1.Location = new System.Drawing.Point(16, startPoint);
+            startPoint += addHeight;
+            //addHeight += addHeight;
             this.Controls.Add(foldPair1);
         }
 
