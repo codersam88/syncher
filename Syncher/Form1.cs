@@ -11,11 +11,15 @@ namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
     {
+        LinkedList<CheckBox> fPair = new LinkedList<CheckBox>();
         string fName,desFName,dataDir,dataFile;
+        int addHeight=20,startPoint = 75;
         public Form1()
         {
             InitializeComponent();
         }
+
+        
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -25,12 +29,30 @@ namespace WindowsFormsApplication1
             System.IO.Directory.CreateDirectory(dataDir);
             if (System.IO.File.Exists(dataFile))
             {
-
+                displayOnPanel();
             }
             
             
             Console.WriteLine("Directory of app "+appDirectory );
             
+        }
+
+        void displayOnPanel()
+        {
+            System.IO.StreamReader sred = new System.IO.StreamReader(dataFile);
+            String cLine;
+            while ((cLine = sred.ReadLine()) != null)
+            {
+                CheckBox temp = new CheckBox();
+                temp.AutoSize=true;
+                temp.Text =cLine;
+                fPair.AddLast(new CheckBox());
+                
+                temp.Location = new System.Drawing.Point(16, startPoint);
+                startPoint = startPoint + addHeight;
+                addHeight *= 2;
+                this.Controls.Add(temp);
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
