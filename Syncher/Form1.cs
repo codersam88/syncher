@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Syncher;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,27 +12,26 @@ namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
     {
-        LinkedList<CheckBox> fPair = new LinkedList<CheckBox>();
+        LinkedList<FolderPair> fPair = new LinkedList<FolderPair>();
         string fName,desFName,dataDir,dataFile;
-        int addHeight=20,startPoint = 75;
+        int addHeight=20,startPoint = 35;
+        FolderPair fp;
         public Form1()
         {
             InitializeComponent();
         }
-
         
-
         private void Form1_Load(object sender, EventArgs e)
         {
             String appDirectory = AppDomain.CurrentDomain.BaseDirectory;
             dataDir = System.IO.Path.Combine(appDirectory, "data Files");
             dataFile = System.IO.Path.Combine(dataDir, "dataFile");
-            System.IO.Directory.CreateDirectory(dataDir);
+            System.IO.Directory.CreateDirectory(dataDir);//creates only if not existed before
             if (System.IO.File.Exists(dataFile))
             {
                 displayOnPanel();
-            }
-            
+                sync();
+            }            
             
             Console.WriteLine("Directory of app "+appDirectory );
             
@@ -39,20 +39,22 @@ namespace WindowsFormsApplication1
 
         void displayOnPanel()
         {
+            char[] delmit = {' '} ;
             using (System.IO.StreamReader sred = new System.IO.StreamReader(dataFile))
             {
                 String cLine;
                 while ((cLine = sred.ReadLine()) != null)
                 {
-                    CheckBox temp = new CheckBox();
-                    temp.AutoSize = true;
-                    temp.Text = cLine;
-                    fPair.AddLast(new CheckBox());
+                    String[] temp = cLine.Split(delmit);
+                    Label currLbl = new Label();
+                    currLbl.AutoSize = true;
+                    currLbl.Text = cLine;
+                    fPair.AddLast(new FolderPair(temp[0],temp[1]));
 
-                    temp.Location = new System.Drawing.Point(16, startPoint);
+                    currLbl.Location = new System.Drawing.Point(16, startPoint);
                     startPoint = startPoint + addHeight;
                     //addHeight += addHeight;
-                    this.Controls.Add(temp);
+                    this.Controls.Add(currLbl);
                 }
             }
         }
@@ -76,23 +78,30 @@ namespace WindowsFormsApplication1
             }
         }
 
-        void sync(String frm, String to)
+        void sync()
         {
-            string[] files = System.IO.Directory.GetFiles(frm);
-            string[] subDirs = System.IO.Directory.GetDirectories(frm);
-            System.IO.DirectoryInfo toDir = new System.IO.DirectoryInfo(to);
-            System.IO.DirectoryInfo frmDir = new System.IO.DirectoryInfo(frm);
-            //System.IO.DirectoryInfo[] subDirs = frmDir.GetDirectories();
-            System.IO.Directory.CreateDirectory(to);
-            foreach (string fil in files)
+            String frm, to;
+            foreach(FolderPair fpr in fPair)
             {
-                fName = System.IO.Path.GetFileName(fil);
-                desFName = System.IO.Path.Combine(to, fName);
-                System.IO.File.Copy(fil, desFName, true);
-            }
-            foreach(string subDir in subDirs){
-                System.IO.DirectoryInfo currDir = new System.IO.DirectoryInfo(subDir);
-                //sync(subDir,System.IO.Path.Combine(to,currDir.Name));
+                frm = fpr.frmFolder;
+                to = fpr.toFolder;
+                string[] files = System.IO.Directory.GetFiles(frm);
+                string[] subDirs = System.IO.Directory.GetDirectories(frm);
+                System.IO.DirectoryInfo toDir = new System.IO.DirectoryInfo(to);
+                System.IO.DirectoryInfo frmDir = new System.IO.DirectoryInfo(frm);
+                //System.IO.DirectoryInfo[] subDirs = frmDir.GetDirectories();
+                System.IO.Directory.CreateDirectory(to);
+                foreach (string fil in files)
+                {
+                    fName = System.IO.Path.GetFileName(fil);
+                    desFName = System.IO.Path.Combine(to, fName);
+                    System.IO.File.Copy(fil, desFName, true);
+                }
+                foreach (string subDir in subDirs)
+                {
+                    System.IO.DirectoryInfo currDir = new System.IO.DirectoryInfo(subDir);
+                    //sync(subDir,System.IO.Path.Combine(to,currDir.Name));
+                }
             }
 
         }
@@ -104,9 +113,10 @@ namespace WindowsFormsApplication1
 
         private void addFolderPair(String f1, String f2)
         {
-            CheckBox foldPair1 = new CheckBox();
+            Label foldPair1 = new Label();
             foldPair1.AutoSize = true;
             foldPair1.Text = f1 + " " + f2;
+            FolderPair fp = new FolderPair(f1,f2);
             if (!System.IO.File.Exists(dataFile))
             {
                 System.IO.File.Create(dataFile);
@@ -116,6 +126,7 @@ namespace WindowsFormsApplication1
             {
                 fil.WriteLine(f1 + " " + f2);
             }
+            fPair.AddLast(fp);
             foldPair1.Location = new System.Drawing.Point(16, startPoint);
             startPoint += addHeight;
             //addHeight += addHeight;
@@ -128,6 +139,11 @@ namespace WindowsFormsApplication1
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
         {
 
         }

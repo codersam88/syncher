@@ -6,3 +6,5 @@ C:\Users\vinnu\documents\visual studio 2010\Projects\Syncher\Syncher\obj\x86\Deb
 C:\Users\vinnu\documents\visual studio 2010\Projects\Syncher\Syncher\obj\x86\Debug\Syncher.csproj.GenerateResource.Cache
 C:\Users\vinnu\documents\visual studio 2010\Projects\Syncher\Syncher\obj\x86\Debug\Syncher.exe
 C:\Users\vinnu\documents\visual studio 2010\Projects\Syncher\Syncher\obj\x86\Debug\Syncher.pdb
+C:\Users\vinnu\Documents\Visual Studio 2010\Projects\Syncher\Syncher\obj\x86\Debug\Interop.PortableDeviceTypesLib.dll
+C:\Users\vinnu\Documents\Visual Studio 2010\Projects\Syncher\Syncher\obj\x86\Debug\Syncher.csproj.ResolveComReference.cache
