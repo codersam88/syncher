@@ -13,7 +13,7 @@ namespace WindowsFormsApplication1
     public partial class Form1 : Form
     {
         LinkedList<FolderPair> fPair = new LinkedList<FolderPair>();
-        string fName,desFName,dataDir,dataFile;
+        string fName,desFName,dataDir,dataFile,currFile;
         int addHeight=20,startPoint = 35;
         FolderPair fp;
         public Form1()
@@ -30,7 +30,7 @@ namespace WindowsFormsApplication1
             if (System.IO.File.Exists(dataFile))
             {
                 displayOnPanel();
-                sync();
+                syncAtStart();
             }            
             
             Console.WriteLine("Directory of app "+appDirectory );
@@ -78,33 +78,47 @@ namespace WindowsFormsApplication1
             }
         }
 
-        void sync()
+        void syncAtStart()
         {
             String frm, to;
-            foreach(FolderPair fpr in fPair)
+            foreach (FolderPair fpr in fPair)
             {
                 frm = fpr.frmFolder;
                 to = fpr.toFolder;
-                string[] files = System.IO.Directory.GetFiles(frm);
-                string[] subDirs = System.IO.Directory.GetDirectories(frm);
-                System.IO.DirectoryInfo toDir = new System.IO.DirectoryInfo(to);
-                System.IO.DirectoryInfo frmDir = new System.IO.DirectoryInfo(frm);
-                //System.IO.DirectoryInfo[] subDirs = frmDir.GetDirectories();
-                System.IO.Directory.CreateDirectory(to);
-                foreach (string fil in files)
-                {
-                    fName = System.IO.Path.GetFileName(fil);
-                    desFName = System.IO.Path.Combine(to, fName);
-                    System.IO.File.Copy(fil, desFName, true);
-                }
-                foreach (string subDir in subDirs)
-                {
-                    System.IO.DirectoryInfo currDir = new System.IO.DirectoryInfo(subDir);
-                    //sync(subDir,System.IO.Path.Combine(to,currDir.Name));
-                }
-            }
+                Console.WriteLine("folders "+frm + " " + to);
+                sync(frm, to);
 
+            }
         }
+
+        void sync(String frm, String to)
+        {
+            string[] files = System.IO.Directory.GetFiles(frm);
+            string[] subDirs = System.IO.Directory.GetDirectories(frm);
+            System.IO.DirectoryInfo frmDir = new System.IO.DirectoryInfo(frm);
+            System.IO.DirectoryInfo toDir = new System.IO.DirectoryInfo(to);
+            currFile = System.IO.Path.Combine(dataDir, frmDir.Name + "_" + toDir.Name);
+            if (!System.IO.File.Exists(currFile))
+            {
+                System.IO.File.Create(currFile);
+            }
+            //System.IO.DirectoryInfo[] subDirs = frmDir.GetDirectories();
+            System.IO.Directory.CreateDirectory(to);
+            foreach (string fil in files)
+            {
+                fName = System.IO.Path.GetFileName(fil);
+                desFName = System.IO.Path.Combine(to, fName);
+                System.IO.File.Copy(fil, desFName, true);
+            }
+            foreach (string subDir in subDirs)
+            {
+                Console.WriteLine(subDir);
+                System.IO.DirectoryInfo currDir = new System.IO.DirectoryInfo(subDir);
+                sync(subDir,System.IO.Path.Combine(to,currDir.Name));
+            }
+        }
+
+        
         String makePath(String pth)
         {
             //return pth = "@" + "\"" + pth + "\"";
